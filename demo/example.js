@@ -145,14 +145,22 @@ $().ready(function(){
         var content = $('.item-input').val();
         $('.item-input').val('');
         var isAllowed = $('.isallowed-checkbox').prop('checked')
+        var isRoot = $('.isroot-checkbox').prop('checked')
         
         var data = getHierarchyData();
-        data[0].children.push({
+
+        var _item = {
             id:  $('.menuDiv').length + 1,
             content: content,
             is_allowed: isAllowed,
             children: []
-        })
+        }
+        if (isRoot) {
+            _item.is_root = true;
+            data.push(_item)
+        } else {
+            data[0].children.push(_item)
+        }
         // redraw
         createHtmlFromJson($ol, data);
     })
