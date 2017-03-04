@@ -8,11 +8,10 @@ jQuery outliner; json outliner;
 ## Meteor Installation
 ~~meteor add ilikenwf:nested-sortable~~
 
-## Forked from [ilikenwf/nestedSortable](https://github.com/ilikenwf/nestedSortable)
-Changes:
+## Changes compared to [ilikenwf/nestedSortable](https://github.com/ilikenwf/nestedSortable)
 - Support adding new item to the list
 - Change the style of component
-- Support right-click (maybe)
+- Support menu
 - Support json -> html -> json, i.e., pass json as input and output.
 
 
