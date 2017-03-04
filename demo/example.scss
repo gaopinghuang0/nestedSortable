@@ -44,6 +44,12 @@ small code {
     font-size: 11px;
 }
 
+input[type="text"] {
+    padding: 3px 5px;
+    font-size: 16px;
+    width: 80%;
+}
+
 .placeholder {
     outline: 1px dashed #4183C4;
 }
@@ -51,6 +57,27 @@ small code {
 .mjs-nestedSortable-error {
     background: #fbe3e4;
     border-color: transparent;
+}
+
+
+/* overwrite bootstrap fieldset lengend
+ Credit: http://stackoverflow.com/a/16852571/4246348
+*/
+fieldset {
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+
+legend {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width:auto;
+    padding:0 10px;
+    border-bottom:none;
 }
 
 // #tree {
@@ -102,23 +129,29 @@ li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
 //     padding: 0;
 // }
 
+li[data-is_root=true] > div.menuDiv {
+    background-color: #ddd;
+    .item-content {
+        font-weight: bold;
+    }
+}
+
 .menuDiv {
     // background: #EBEBEB;
     position: relative;
 
-    .ui-icon {
-        transform: scale(1.2);
+    .glyphicon {
+        font-size: 16px;
         cursor: pointer;
         position: absolute;        
-        top: 2px;
+        top: 5px;
     }
 
-
-    .disclose {
+    .disclose, .document {
         left: -18px;
     }
     .menu-icon {
-        right: -16px;
+        right: -18px;
     }
 
     .item-content {
@@ -153,10 +186,10 @@ h2 {
     margin-bottom: 1.5em;
 }
 
-h3 {
-    font-size: 1em;
-    margin: 1em 0 .3em;
-}
+// h3 {
+//     font-size: 1em;
+//     margin: 1em 0 .3em;
+// }
 
 p,ol,ul,pre,form {
     margin-top: 0;

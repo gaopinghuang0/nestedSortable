@@ -704,10 +704,11 @@
 			return ret;
 
 			function _recursiveItems(item) {
-				var id = ($(item).attr(o.attribute || "id") || "").match(o.expression || (/(.+)[-=_](.+)/)),
+				var $item = $(item),
+					id = ($item.attr(o.attribute || "id") || "").match(o.expression || (/(.+)[-=_](.+)/)),
 					currentItem;
 
-				var data = $(item).data();
+				var data = $item.data();
 				if (data.nestedSortableItem) {
 					delete data.nestedSortableItem; // Remove the nestedSortableItem object from the data
 				}
@@ -716,12 +717,15 @@
 					currentItem = {
 						"id": id[2]
 					};
+					if (o.includeContent) {
+						currentItem.content = $item.find(o.handle).first().text();
+					}
 
 					currentItem = $.extend({}, currentItem, data); // Combine the two objects
 
-					if ($(item).children(o.listType).children(o.items).length > 0) {
+					if ($item.children(o.listType).children(o.items).length > 0) {
 						currentItem.children = [];
-						$(item).children(o.listType).children(o.items).each(function() {
+						$item.children(o.listType).children(o.items).each(function() {
 							var level = _recursiveItems(this);
 							currentItem.children.push(level);
 						});

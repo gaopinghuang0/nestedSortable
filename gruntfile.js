@@ -7,7 +7,7 @@ module.exports = function(grunt) {
                 livereload: true,
             },
             clientjs: {
-                files: ['demo/*.js'],
+                files: ['demo/*.js', '*.js'],
                 // tasks: ['uglify'],
             },
             sass: {
