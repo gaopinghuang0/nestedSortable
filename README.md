@@ -5,7 +5,7 @@
 ## Meteor Installation
 ~~meteor add ilikenwf:nested-sortable~~
 
-## Changes maded to [ilikenwf/nestedSortable](https://github.com/ilikenwf/nestedSortable)
+## Changes made to [ilikenwf/nestedSortable](https://github.com/ilikenwf/nestedSortable)
 jQuery outliner; json outliner; 
 - Support adding new item to the list
 - Change the style of component
