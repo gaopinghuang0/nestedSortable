@@ -35,9 +35,17 @@
   </section><!-- END section -->
 
   <section id="demo">
-    <p><em>Note: This demo has the <code>maxLevels</code> option set to '4'.</em> Also, a document (with a file icon) is not droppable while a folder is.</p>
 
-    <ol class="sortable"></ol>
+    <p><em>Note: This demo has the <code>maxLevels</code> option set to '4'.</em> </p>
+    <ul>
+      <li>A document (with a file icon) is not droppable while a folder is. </li>
+      <li>Insert a new item (either a folder or document) to a <strong>folder</strong>, which will be put inside that folder</li>
+      <li>Insert a new item (either a folder or document) to a <strong>document</strong>, which will be put after that document</li>
+    </ul>
+    <fieldset>
+      <legend>Demo</legend>
+      <ol class="sortable"></ol>
+    </fieldset>
 
     <!-- loaded popover content -->
     <ul id="popover-content" class="list-group" style="display: none">
@@ -47,21 +55,6 @@
       <a href="javascript:;" class="list-group-item insert-document">New document</a>
       <a href="javascript:;" class="list-group-item delete-menu"><span class="glyphicon glyphicon-trash"></span> Delete</a>
     </ul>
-
-<!--     <fieldset>
-      <legend>Try to add new item</legend>
-      <div class="input-group">
-        <input type="text" class="item-input form-control" placeholder="Content">
-        <span class="input-group-addon">
-          <input type="checkbox" class="isallowed-checkbox" value="isallowed">  As Folder 
-        </span>
-        <span class="input-group-addon">
-          <input type="checkbox" class="isroot-checkbox" value="isroot"> isRoot
-        </span>
-      </div>
-      <input type="button" class="add-item btn btn-success" value="Add item">
-      <input type="button" class="cancel-add btn btn-default" value="Cancel">
-    </fieldset> -->
 
     <fieldset>
       <legend>Try the custom methods:</legend>
@@ -87,8 +80,6 @@
     </fieldset>
 
 
-
-    <p><em>Note: This demo has the <code>maxLevels</code> option set to '4'.</em></p>
   </section><!-- END #demo -->
 
   <section id="license">
@@ -102,12 +93,12 @@
 
 
 
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-  <script type="text/javascript" src="example.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script type="text/javascript" src="example.js"></script>
 
-  <!-- for development, auto livereload -->
-  <script src="//localhost:35729/livereload.js"></script>
+    <!-- for development, auto livereload -->
+    <script src="//localhost:35729/livereload.js"></script>
 
   </body>
   </html>
