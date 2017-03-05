@@ -718,7 +718,7 @@
 						"id": id[2]
 					};
 					if (o.includeContent) {
-						currentItem.content = $item.find(o.handle).first().text();
+						currentItem.content = $item.find(o.contentTarget || o.handle).first().text();
 					}
 
 					currentItem = $.extend({}, currentItem, data); // Combine the two objects

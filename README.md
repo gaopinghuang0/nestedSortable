@@ -8,8 +8,12 @@
 ## Changes made to [ilikenwf/nestedSortable](https://github.com/ilikenwf/nestedSortable)
 jQuery outliner; json outliner; 
 - Support adding new item to the list
+	- insert a new **root**
+	- insert a new item (either a folder or document) to a **folder**, which will be put inside that folder 
+	- insert a new item (either a folder or document) to a **document**, which will be put after that document 
 - Change the style of component
 - Support menu
+- Support edit
 - Support json -> html -> json, i.e., pass json as input and output.
 
 

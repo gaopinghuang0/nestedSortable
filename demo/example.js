@@ -110,11 +110,11 @@ $().ready(function(){
                 $addon = $('<span class="disclose glyphicon glyphicon-chevron-down">')
                     .attr('title', 'Click to show/hide children')
             } else {
-                $addon = $('<span class="document glyphicon glyphicon-picture">')
+                $addon = $('<span class="document glyphicon glyphicon-file">')
             }
 
             var $content = $('<div class="item-content">').text(d.content)
-            var $menuIcon = $('<span class="menu-icon glyphicon glyphicon-option-vertical">')
+            var $menuIcon = $('<span class="menu-popover glyphicon glyphicon-option-vertical">')
             $div.append($addon).append($content).append($menuIcon)
             $li.append($div)
 
@@ -129,53 +129,116 @@ $().ready(function(){
         })
     }
 
-
-
-    // $('.expandEditor').attr('title','Click to show/hide item editor');
-    // $('.disclose').attr('title','Click to show/hide children');
-    // $('.deleteMenu').attr('title', 'Click to delete item.');
-
     // ensure it works after the list is redrawn
     $ol.on('click', '.disclose', function() {
         $(this).closest('li').toggleClass('mjs-nestedSortable-collapsed').toggleClass('mjs-nestedSortable-expanded');
         $(this).toggleClass('glyphicon-chevron-right').toggleClass('glyphicon-chevron-down');
     });
 
-    $('.add-item').on('click', function() {
-        var content = $('.item-input').val();
-        $('.item-input').val('');
-        var isAllowed = $('.isallowed-checkbox').prop('checked')
-        var isRoot = $('.isroot-checkbox').prop('checked')
-        
-        var data = getHierarchyData();
 
-        var _item = {
-            id:  $('.menuDiv').length + 1,
-            content: content,
-            is_allowed: isAllowed,
-            children: []
+    // popover
+    // credit: http://stackoverflow.com/questions/16150163/show-one-popover-and-hide-other-popovers
+    // Credit: http://stackoverflow.com/a/25252552/4246348
+    var currMenuId = null;
+    $('body').popover({
+        selector: '.menu-popover',
+        content: $('#popover-content').html(),
+        trigger: "click",
+        html: true
+    }).on("show.bs.popover", function(e){
+        // set id to content
+        currMenuId = $(e.target).closest('.menuDiv').attr('data-id')
+        // show menu accordingly
+        setTimeout(function() {
+            var shouldShowAddRoot = $('#menuItem_'+currMenuId).attr('data-is_root') === 'true';
+            $('.insert-root').toggle(shouldShowAddRoot);
+        })
+        // hide all other popovers
+        $(".menu-popover").not(e.target).popover("destroy");
+        $(".popover").remove();                    
+    });
+
+    // hide when click outside or click on menu item
+    $('body').on('click', function (e) {
+        if (!$(e.target).attr('class')
+            || $(e.target).attr('class').indexOf('menu-popover') === -1) { 
+            // NOTE: must use destroy, instead of hide,
+            // otherwise, the next click will not popup
+            $('.menu-popover').popover('destroy');
         }
-        if (isRoot) {
+    })
+
+    $ol.on('click', '.edit-item', function(e) {
+        enableEditById(currMenuId);
+    })    
+
+    $ol.on('click', '.delete-menu', function() {
+        $('#menuItem_'+currMenuId).remove();
+    })
+
+    $ol.on('click', '.insert-root', function() {
+        insertElement('root')
+    })
+
+    $ol.on('click', '.insert-folder', function() {
+        insertElement('folder')
+    })
+
+    $ol.on('click', '.insert-document', function() {
+        insertElement('document')
+    })
+
+    function insertElement(type) {
+        var elm = $('#menuItem_'+currMenuId);
+        var _data = [{
+            id:  $('.menuDiv').length + 1,
+            content: 'new ' + type,
+            children: []
+        }]
+        var _item = _data[0];
+        if (type === 'root') {
+            // append to the very end
+            var data = getHierarchyData();
             _item.is_root = true;
             data.push(_item)
+            createHtmlFromJson($ol, data);
         } else {
-            data[0].children.push(_item)
+            _item.is_allowed = (type!=='document');
+            var _list = $('<ol>')
+            createHtmlFromJson(_list, _data)
+            if (elm.attr('data-is_allowed') === 'true') {
+                // append inside
+                _list.appendTo(elm)
+            } else {
+                // append after
+                _list.children().insertAfter(elm)
+            }
         }
-        // redraw
-        createHtmlFromJson($ol, data);
-    })
-    
-    // $('.expandEditor, .itemTitle').click(function(){
-    //     var id = $(this).attr('data-id');
-    //     $('#menuEdit'+id).toggle();
-    //     $(this).toggleClass('ui-icon-triangle-1-n').toggleClass('ui-icon-triangle-1-s');
-    // });
-    
-    // $('.deleteMenu').click(function(){
-    //     var id = $(this).attr('data-id');
-    //     $('#menuItem_'+id).remove();
-    // });
-        
+
+        // enable editing immediately
+        enableEditById(_item.id)
+    }
+
+
+    function enableEditById(id) {
+        var obj = $('#menuItem_'+id).find('.item-content').first()
+        // using X-editable
+        obj.editable({
+            type: 'text',
+            toggle:'manual',
+            // mode: 'inline',
+            success: function(response, newValue) {
+                // obj.editable('disabled')
+                console.log(newValue) //update backbone model
+            }
+        });
+        obj.editable('show')               
+    };
+
+    function getHierarchyData() {
+        return $ol.nestedSortable('toHierarchy', {startDepthCount: 0, includeContent: true, contentTarget: '.item-content'});
+    }
+
     $('#serialize').click(function(){
         var serialized = $ol.nestedSortable('serialize');
         $('#serializeOutput').text(serialized+'\n\n');
@@ -186,11 +249,6 @@ $().ready(function(){
         hiered = JSON.stringify(hiered, null, 2);
         $('#toHierarchyOutput').text(hiered);
     })
-
-    function getHierarchyData() {
-        return $ol.nestedSortable('toHierarchy', {startDepthCount: 0, includeContent: true});
-    }
-
 
     $('#toArray').click(function(e){
         var arraied = $ol.nestedSortable('toArray', {startDepthCount: 0});
